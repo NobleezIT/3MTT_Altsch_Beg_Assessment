@@ -1,0 +1,69 @@
+---
+
+- hosts: slave
+  become: yes
+  tasks:
+
+    # Copy LAMP.sh script to the slave node
+    - name: Copy LAMP.sh script to slave node
+      copy:
+        src: /home/vagrant/Ansible/LAMP.sh
+        dest: /home/vagrant/LAMP.sh
+        mode: 0755  
+
+      # Make the script executable
+
+    # Execute the LAMP.sh script on the slave node
+    - name: Execute LAMP.sh script on slave node
+      shell: /home/vagrant/LAMP.sh
+
+
+- name: Create a cron job to check server's uptime every 12 am
+  hosts: slave
+  become: yes
+  tasks:
+
+    # Create an uptime script that logs the server's uptime to a file
+    - name: Create the uptime script
+      copy:
+        content: |
+
+          #!/bin/bash
+
+          # Log the server's uptime to a file
+          uptime > /var/log/uptime.log
+        dest: /usr/local/bin/check_uptime.sh
+        mode: '0755'  # Make the script executable
+
+    # Create a cron job that runs the uptime script every day at 12 am (midnight)
+
+    - name: Create a cron job to check uptime every 12 am
+      cron:
+        name: Check uptime every 12 am
+        job: "/usr/local/bin/check_uptime.sh"
+
+        # Run at 12:00 am
+        minute: '0'  
+        hour: '0'
+        state: present
+
+    # Display the contents of the uptime log file
+    - name: Display uptime log file
+      shell: cat /var/log/uptime.log
+      register: uptime_output
+
+    # Display the server's uptime as captured in the uptime log file
+    - name: Display the server's uptime
+      debug:
+        msg: "{{ uptime_output.stdout }}"
+
+    # Task to fetch the content of the PHP application using curl
+    - name: Fetch PHP application content using curl
+      command: "curl -s http://192.168.33.4"  # Perform a silent HTTP GET request to the target IP address
+      register: php_application  # Register the output of the curl command
+      ignore_errors: true  # Continue playbook execution even if this task fails
+
+    # Task to display the content fetched from the PHP application
+    - name: Display content of PHP application
+      debug:
+        msg: "PHP Application Content:\n{{ php_application.stdout }}"  # Display the output of the curl command
