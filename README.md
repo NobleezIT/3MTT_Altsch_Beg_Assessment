@@ -52,9 +52,11 @@ I also added config.ssh.insert_key = false under config.vm.box = ubuntu/focal64.
 ![alt text](images/newvafile.PNG)
 
 The next step is to type and run the command `vagrant up` to start the machine.
+
 ![alt text](images/Up_master.PNG)
 
 Once it shows the above then it means the server is up and running. You are ready to ssh into the machine. Use the command `vagrant ssh` to connect the machine.
+
 ![alt text](images/ssh_master.PNG)
 
 - Now that that I have logged into the "masters" virtual machine, I followed the same procedure for the "slave" virtual machine. With the only difference being the contents of the vagrant file. Which is as follows:
@@ -70,23 +72,27 @@ end
 ## Connect the "master" and "slave" machines by using ssh
 - I used the command `ip a` to check for the IP address of each of the virtual machines. 
 - After noting the addresses, I proceeded to generate keys. 
-On the "master" Virtual Machine, I wrote ssh-keygen to generate a private & public key. When I run the command, I came across some prompts. To proceed to generate i clicked on Enter key thrice. Like below:
+On the "master" Virtual Machine, I wrote ssh-keygen to generate a private & public key. When I run the command, I came across some prompts. To proceed to generate the key, I clicked on Enter key thrice. Like below:
+
 ![alt text](images/keygen_master.PNG)
 
 - The steps above were repeated on the "slave" server.
+
 ![alt text](images/ssh_slave.PNG)
 
 - In the "master" virtual machine, change the directory into ssh with the command cd .ssh then ls to list all the files in the ssh directory. You will see something like what is below.
+
 ![alt text](images/sshh.PNG)
 
-- Open the content of id_rsa.pub and copy it to save it somewhere for later use. That is where the public key is and that is what you are copying. Use this command to open it cat id_rsa.pub. The key would be long and look like something below.
+- Open the content of id_rsa.pub and copy it to save it somewhere for later use. That is where the public key is and that is what you are copying. I used this command to open it cat id_rsa.pub. The key would be long and look like something below.
+
 ![alt text](images/keyss.PNG)
 - Get on the 'slave' server and change the directory to .ssh with the command `cd .ssh`.
 
 - I created and opened a file in the .ssh directory of the "slave" machine at once so that the public key you copied from the "masters" machine and saved somewhere, you will paste it in the created file. I named my file 'public_key'. Run the command nano public_key and paste the public key from the "master" virtual machine here. 
 - I then run the command cat public_key >> authorized_keys to copy the public keys into the authorized_keys file from the file named public in the "slave" machine. Run the command cat authorized_keys to see the content of the copied public keys of the "masters" virtual machine and the "slave" virtual machine. 
-- Connect the "master" virtual machine to the "slave" virtual machine by using ssh to connect the IP address of the "slave" machine to the "master" machine. First of all, run the command ip a to know the IP addresses in each machine. Then run the command ssh vagrant@slave ip in the "master" virtual machine. It should look like this ssh vagrant@192.168.33.4 Make sure to replace the IP address with your own "slave" IP address. Whatever it prompts you, type 'yes'. 
-Like below:
+- Connect the "master" virtual machine to the "slave" virtual machine by using ssh to connect the IP address of the "slave" machine to the "master" machine. First of all, run the command ip a to know the IP addresses in each machine. Then run the command ssh vagrant@slave ip in the "master" virtual machine. It should look like this ssh vagrant@192.168.33.4 
+
 ![alt text](images/sshing.PNG)
 
 ## Creating the Bash Script and Ansible to automate the provisioning of the two Ubuntu-based Virtual Machines we've created.
@@ -250,9 +256,12 @@ mkdir Ansible && cd Ansible
 ![alt text](images/ansible.PNG)
 
 - Run this command to update any dependencies. 
-- Then to install Ansible run the command below. ![alt text](images/installansible.PNG)
+- Then to install Ansible run the command below.
+
+ ![alt text](images/installansible.PNG)
 - Still, in your Ansible directory, create and open your inventory using `nano inventory`. The inventory file is used to store the address of the slave nodes to be configured which will enable the playbook to run in the "slave" machine even if it is created in the "master's" machine.
 - Opening the inventory file to put in the IP address of the "slave" machine. 
+
 ![alt text](images/inven.PNG)
 
 - Create and nano into playbook with the .yml extension.
@@ -332,6 +341,7 @@ nano playbook.yml
         msg: "PHP Application Content:\n{{ php_application.stdout }}"  # Display the output of the curl command
 ```
 Here is what it looks like:
+
 ![alt text](images/playbb.PNG)
 
 ### Created a cron job to check the server’s uptime every 12 am in my playbook.
@@ -342,8 +352,10 @@ This job can be found in the playbook. Below is a snippet from it:
 ansible-playbook playbook.yml -i inventory
 ```
 -The output after running the command is presented below:
+
 ![alt text](images/playbook_script.PNG)
 Finally i pasted the IP address of the 'slave' server on my browser to see that the application is accessible. Here is a screenshot of the webpage:
+
 ![alt text](images/App_page.PNG)
 
 Certainly! Here's a more polished and professional version of your conclusion:
