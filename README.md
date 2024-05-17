@@ -358,8 +358,6 @@ Finally i pasted the IP address of the 'slave' server on my browser to see that 
 
 ![alt text](images/App_page.PNG)
 
-Certainly! Here's a more polished and professional version of your conclusion:
-
 ---
 
 **Conclusion**
