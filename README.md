@@ -362,7 +362,7 @@ Finally i pasted the IP address of the 'slave' server on my browser to see that 
 
 **Conclusion**
 
-In this project, we have demonstrated an effective and reliable method for provisioning and managing servers through the automation of the LAMP (Linux, Apache, MySQL, PHP) stack deployment using a Bash script within Ansible. By streamlining the deployment process, we achieve faster and less labor-intensive setup compared to manual configurations. Moreover, the script's reusability allows easy adaptation to various environments and use cases, facilitated by parameterized variables and robust error handling.
+In this project, I have demonstrated an effective and reliable method for provisioning and managing servers through the automation of the LAMP (Linux, Apache, MySQL, PHP) stack deployment using a Bash script within Ansible. By streamlining the deployment process, we achieve faster and less labor-intensive setup compared to manual configurations. Moreover, the script's reusability allows easy adaptation to various environments and use cases, facilitated by parameterized variables and robust error handling.
 
 The integration of the Bash script into an Ansible playbook further enhances automation, ensuring uniformity and repeatability across server deployments. The playbook not only establishes cron jobs to monitor server uptime but also verifies PHP application accessibility on both master and slave nodes, providing valuable insights into server performance.
 
